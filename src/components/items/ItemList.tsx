@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getFavorites, getItems } from "@/utils/api";
-import { Item } from "@/interfaces/item";
+import { useItems } from "@/context/ItemsContext";
 import ItemCard from "./ItemCard";
 import styled from "styled-components";
 
@@ -11,14 +11,12 @@ const List = styled.ul`
 `;
 
 export default function ItemList() {
-  const [items, setItems] = useState<Item[]>([]);
   const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
+  const { items } = useItems();
 
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedItems = await getItems();
       const fetchedFavorites = await getFavorites();
-      setItems(fetchedItems);
       setFavoriteIds(fetchedFavorites);
     };
     fetchData();

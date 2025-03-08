@@ -1,6 +1,7 @@
 "use client";
-import Link from 'next/link';
-import styled from 'styled-components';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import styled from "styled-components";
 import { FaHome, FaHeart } from "react-icons/fa";
 
 const Nav = styled.nav`
@@ -14,47 +15,61 @@ const Nav = styled.nav`
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 
-  bottom: 0; /* Default for mobile */
+  /* Bottom nav on mobile */
+  bottom: 0;
 
   @media (min-width: 768px) {
-    top: 0; /* Move to top on desktop */
-    bottom: unset;
-    justify-content: flex-start;
-    padding: 10px 20px;
+    /* Move to top for desktop */
+    top: 0;
+    bottom: auto;
   }
 `;
 
-const NavItem = styled(Link)`
+const NavItem = styled(Link)<{ $active: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 8px;
   text-decoration: none;
-  transition: background 0.3s;
+  font-size: 16px;
+  font-weight: bold;
+  color: ${({ $active }) => ($active ? "#fff" : "rgba(255, 255, 255, 0.7)")};
+  background: ${({ $active }) => ($active ? "rgba(255, 255, 255, 0.3)" : "transparent")};
 
   &:hover {
     background: rgba(255, 255, 255, 0.4);
   }
 
+  /* Mobile view*/
+  span {
+    display: none;
+  }
+
   @media (min-width: 768px) {
-    width: auto;
-    height: auto;
-    margin-right: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 16px;
-    color: white;
+    /* Desktop view*/
+    span {
+      display: inline;
+    }
+    svg {
+      display: none;
+    }
   }
 `;
 
 export default function Navigation() {
+  const pathname = usePathname();
   return (
     <Nav>
-      <NavItem href="/"><FaHome color="white" size="24px"/></NavItem>
-      <NavItem href="/favorites"><FaHeart color="white" size="24px"/></NavItem>
+      <NavItem href="/" $active={pathname === "/"}>
+        <FaHome size="24px" />
+        <span>Home</span>
+      </NavItem>
+      <NavItem href="/favorites" $active={pathname === "/favorites"}>
+        <FaHeart size="24px" />
+        <span>Liked</span>
+      </NavItem>
     </Nav>
   );
 }
