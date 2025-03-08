@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import styled from "styled-components";
 import { useItems } from "@/context/ItemsContext";
 import { getFavorites, removeFavorite } from "../utils/api";
 import { FaTrash } from "react-icons/fa";
 import { Item } from "@/interfaces/item";
+import UserProfileHeader from "./items/UserProfileHeader";
+import { renderDescription } from "@/utils/util";
 
 const List = styled.ul`
   list-style: none;
@@ -23,42 +24,23 @@ const ListItem = styled.li`
   border-radius: 10px;
 `;
 
-const UserInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-`;
-
-const UserImage = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  position: relative;
-`;
-
-const UserName = styled.p`
-  font-size: 16px;
-  font-weight: bold;
-  color: steelblue;
-  margin: 0;
-`;
-
 const ItemDetails = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
 const ItemName = styled.p`
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #4f4f4f;
   margin: 0;
 `;
 
 const ItemPrice = styled.p`
-  font-size: 18px;
-  font-weight: bold;
-  margin: 0;
-  color: darkgreen;
+  font-size: 16px;
+  color: gray;   
+  margin: 5px 0;  
+  font-weight: normal;
 `;
 
 const RemoveButton = styled.button`
@@ -73,15 +55,6 @@ const RemoveButton = styled.button`
     color: darkred;
   }
 `;
-
-type FavoriteItem = {
-  id: number;
-  userName: string;
-  avatar: string;
-  itemName: string;
-  price: number;
-};
-
 
 const EmptyStateText = styled.p`
   text-align: center;
@@ -119,22 +92,17 @@ export default function FavoriteList() {
   return (
     <List>
       {favoriteItems.length === 0 ? (
-        <EmptyStateText>No favorites yet.</EmptyStateText>
+        <EmptyStateText>Whoops! No favorites yet!</EmptyStateText>
       ) :(
         favoriteItems.map((item) => (
           <ListItem key={item.id}>
-            <UserInfo>
-              <UserImage>
-                <Image src={item.avatar} alt={item.userName} width={40} height={40} />
-              </UserImage>
-              <div>
-                <UserName>{item.userName}</UserName>
-                <ItemDetails>
-                  <ItemName>{item.itemName}</ItemName>
-                  <ItemPrice>AED {item.price}</ItemPrice>
-                </ItemDetails>
-              </div>
-            </UserInfo>
+            <div>
+              <UserProfileHeader avatar={item.avatar} userName={item.userName} />
+              <ItemDetails>
+                <ItemName>{item.itemName}</ItemName>
+                <ItemPrice>AED {item.price}</ItemPrice>
+              </ItemDetails>
+            </div>
             <RemoveButton onClick={() => handleRemove(item.id)}>
               <FaTrash />
             </RemoveButton>

@@ -2,8 +2,10 @@ import Image from "next/image";
 import FavoriteButton from "./FavoriteButton";
 import styled from "styled-components";
 import { removeFavorite, addFavorite, getFavorites } from "@/utils/api";
+import { renderDescription } from "@/utils/util";
 import { FaHeart } from "react-icons/fa";
 import { Item } from "@/interfaces/item";
+import UserProfileHeader from "./UserProfileHeader";
 
 const ListItem = styled.li`
   background: white;
@@ -11,26 +13,6 @@ const ListItem = styled.li`
   padding: 15px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-`;
-
-const ItemHeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-`;
-
-const UserName = styled.span`
-  color: steelblue;
-  font-weight: bold;
-`;
-
-const UserImageWrapper = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  position: relative;
 `;
 
 const ItemImageWrapper = styled.div`
@@ -125,30 +107,9 @@ export default function ItemCard({
     setFavoriteIds(await getFavorites());
   };
 
-  //Function to highlight hashtags in the description
-  const renderDescription = (text: string) => {
-    return text.split(/(#[\w]+)/g).map((part, index) =>
-      part.startsWith("#") ? (
-        <span
-          key={index}
-          style={{ color: "dodgerblue", fontWeight: "bold", cursor: "pointer" }}
-        >
-          {part}
-        </span>
-      ) : (
-        part
-      )
-    );
-  };
-
   return (
     <ListItem>
-      <ItemHeader>
-        <UserImageWrapper>
-          <Image src={item.avatar} alt={item.userName} width={40} height={40} />
-        </UserImageWrapper>
-        <UserName>{item.userName}</UserName>
-      </ItemHeader>
+      <UserProfileHeader avatar={item.avatar} userName={item.userName} /> 
 
       <ItemContent>
         <FooterDetails>

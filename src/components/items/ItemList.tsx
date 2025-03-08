@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getFavorites, getItems } from "@/utils/api";
+import { getFavorites } from "@/utils/api";
 import { useItems } from "@/context/ItemsContext";
 import ItemCard from "./ItemCard";
 import styled from "styled-components";
