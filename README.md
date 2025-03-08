@@ -10,7 +10,7 @@ This is a **responsive, mobile-first** photo feed application built using [Next.
 - Favorites Management: Users can favorite items and view their list of favorited items, with the ability to remove them as needed.
 
 ## Live URL
-You can view the live application here: [Live Demo](https://your-project-name.vercel.app)
+You can view the live application here: [Live Demo](https://snapflow-ivory.vercel.app/)
 
 ## Getting Started
 
