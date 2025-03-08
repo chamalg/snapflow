@@ -6,7 +6,7 @@ import { getFavorites, removeFavorite } from "../utils/api";
 import { FaTrash } from "react-icons/fa";
 import { Item } from "@/interfaces/item";
 import UserProfileHeader from "./items/UserProfileHeader";
-import { renderDescription } from "@/utils/util";
+
 
 const List = styled.ul`
   list-style: none;
